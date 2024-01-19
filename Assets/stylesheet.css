@@ -1,0 +1,15 @@
+html, body {
+    background-color: black;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    display: block;
+}
+
+body {
+    /* Adjust border properties for the body element */
+    border: 20px solid #fe019a;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
