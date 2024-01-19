@@ -1,0 +1,20 @@
+#home {
+    font-size: 20px;
+}
+
+h2 {
+    font-family: "Tourney", sans-serif;
+    color: white;
+    font-size: 60px;
+    font-optical-sizing: auto;
+    font-weight:200;
+    text-align: center;
+    margin: 20px 0 0 0;
+}
+
+p {
+    color: white;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+
+}

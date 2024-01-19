@@ -1,21 +1,45 @@
 const container = d3.select("#pieChart");
+
 const svg = container.append("svg")
-  .attr("width", 600)
+  .attr("width", 80000)
   .attr("height", 600);
 
-// Create a circle within the SVG
 svg.append("circle")
   .attr("cx", 300)
   .attr("cy", 300)
   .attr("r", 250)
-  .attr("fill", "pink")
+  .attr("fill", "black")
   .attr("stroke", "black")
   .style("stroke-width", "2px")
   .style("opacity", 0.7);
 
-  const colors = d3.scaleOrdinal(d3.schemeDark2);
+  backgroundCircleRadius= 225;
 
-  let details = [{genre:"Contemporary", number:8}, {genre:'Fantasy', number:20}, {genre:'Thriller', number:5}, {genre:'Horror', number:2}, {genre:'Romance', number:5}, {genre:'Graphic Novel', number:4}, {genre:'Non Fiction', number:4}, {genre:'SciFi', number:3}, {genre:'Plays', number: 3}, {genre:'Historical Fiction', number:3}, {genre:'Mystery', number:8}];
+  const colors = d3.scaleOrdinal(d3.schemePaired);
+
+  // const customColors = d3.scaleOrdinal([
+  //   '#fe019a',
+  //   '#54428E',
+  //   '#003459',
+  //   '#E1BC29',
+  //   '#218380',
+  //   '#9BC53D',
+  //   '#DDDBF1',
+  //   '#FFBF81',
+    
+  // ]);
+
+  let details = [
+    {genre:'Horror', number:6}, 
+    {genre:'Romance', number:5}, 
+    {genre:'Graphic Novel', number:7}, 
+    {genre:'Non Fiction', number:4}, 
+    {genre:"Contemporary", number:8}, 
+    {genre:'SciFi', number:9}, 
+    {genre:'Fantasy', number:15}, 
+    {genre:'Historical Fiction', number:3}, 
+    {genre:'Mystery/Thriller', number:13}
+  ];
 
   let data = d3.pie().sort(null).value(function(d){return d.number;})(details);
 
@@ -23,141 +47,61 @@ svg.append("circle")
 
   let segments = d3.arc()
     .innerRadius(0)
-    .outerRadius(200)
-    .padAngle(.05)
+    .outerRadius(backgroundCircleRadius)
     .padRadius(50);
 
   let sections = svg.append('g')
-    .attr('transform', 'translate(300, 300)')
+    .attr('transform', 'translate(300, 250)')
         .selectAll('path').data(data);
   sections.enter().append('path').attr('d', segments).attr("fill", function(d){return colors(d.data.number)});
 
-// Expense Input Form
-// document.getElementById('culminate').addEventListener('click', function () {
-//   let amounts = document.getElementsByName('amount[]');
-//   let total = 0;
-//   for (var i = 0; i < amounts.length; i++) {
-//     if (amounts[i].value !== '') {
-//       total += parseFloat(amounts[i].value);
-//     }
-//   }
-//   document.getElementById('total').innerHTML = 'Total Expenses: $' + total.toFixed(2);
+  const textLabels = svg.append('g')
+  .attr('transform', 'translate(300, 250)')
+  .selectAll('text')
+  .data(data);
 
-//   const data = [
-//     {
-//       name: 'Mortgage/Rent',
-//       value: document.getElementById('data1').value,
-//       key: 'A',
-//     },
-//     {
-//       name: 'Insurance',
-//       value: document.getElementById('data2').value,
-//       key: 'B',
-//     },
-//     {
-//       name: 'Utilities',
-//       value: document.getElementById('data3').value,
-//       key: 'C',
-//     },
-//     {
-//       name: 'Loans',
-//       value: document.getElementById('data4').value,
-//       key: 'D',
-//     },
-//     {
-//       name: 'Groceries',
-//       value: document.getElementById('data5').value,
-//       key: 'E',
-//     },
-//     {
-//       name: 'Transportation',
-//       value: document.getElementById('data6').value,
-//       key: 'F',
-//     },
-//     {
-//       name: 'Miscellaneous',
-//       value: document.getElementById('data7').value,
-//       key: 'G',
-//     },
-//   ];
+  textLabels.enter().append('text')
+  .attr('x', function (d) {
+    var center = segments.centroid(d);
+    return center[0];
+  })
+  .attr('y', function (d) {
+    var center = segments.centroid(d);
+    return center[1]; // Adjust the vertical position for number text
+  })
+  .text(function (d) {
+    return d.data.number;
+  })
+  .attr('text-anchor', 'middle')
+  .attr('dy', '0.35em')
+  .style('fill', 'white')
+  .style('font-size', '25px');
 
-//   // Save the amount data
-//   localStorage.setItem('expenseData', JSON.stringify(data));
 
-  // Pie Chart Styling after Data Input
-//   const customColors = d3.scaleOrdinal([
-//     '#FFCC0D',
-//     '#FF7326',
-//     '#FF194D',
-//     '#BF2669',
-//     '#702A8C',
-//     '#023B47',
-//     '#295E52',
-//     '#F2E085',
-//     '#FCAB55',
-//     '#EE7F38',
-//   ]);
+  //  Legend 
 
-//   const pie = d3.pie().value((d) => d.value);
+  const legendWidth = 200;
 
-//   const radius = Math.min(svg.attr('width'), svg.attr('height')) / 2;
+  const legendX = 750;
+  const legendY = 125;
 
-//   const arc = d3.arc().outerRadius(radius).innerRadius(0);
+  const legends = svg.append('g')
+    .attr('transform', 'translate(' + legendX + ',' + legendY + ')')
+      .selectAll('.legends').data(data);
 
-//   svg.selectAll('.arc').remove();
+  const legend = legends.enter().append('g').classed('legends', true)
+    .attr('transform', function(d,i) {
+      return 'translate(0,' + (i*30) + ')';
+    });
+  
+    legend.append('rect').attr('width', 20).attr('height', 20).attr('fill', function(d){return colors(d.data.number);})
+    legend.append('text').text(function(d){return d.data.genre})
+      .attr('fill', function(d){return colors(d.data.number);})
+      .attr('x', 30)
+      .attr('y', 14)
+      .style('font-size', '20px')
+      .style('font-family', 'Arial')
+      .style('fill', 'white');
 
-//   const g = svg.append('g').attr('transform', 'translate(150, 150)');
 
-//   const pieChart = g
-//     .selectAll('.arc')
-//     .data(pie(data))
-//     .enter()
-//     .append('g')
-//     .attr('class', 'arc');
-
-//   pieChart
-//     .append('path')
-//     .attr('d', arc)
-//     .attr('fill', (d, i) => customColors(i));
-
-//   pieChart
-//     .selectAll('mySlices')
-//     .data(pie(data))
-//     .enter()
-//     .append('text')
-//     .text(function (d) {
-//       return d.data.key;
-//     })
-//     .attr('transform', function (d) {
-//       return 'translate(' + arc.centroid(d) + ')';
-//     })
-//     .style('text-anchor', 'middle')
-//     .style('font-size', 17);
-// });
-
-// Save and retrieve data on load
-// function updatePieChart() {
-//   let amounts = document.getElementsByName('amount[]');
-//   let total = 0;
-//   for (var i = 0; i < amounts.length; i++) {
-//     if (amounts[i].value !== '') {
-//       total += parseFloat(amounts[i].value);
-//     }
-//   }
-//   document.getElementById('total').innerHTML = 'Total Expenses: $' + total.toFixed(2);
-
-//   const savedData = localStorage.getItem('expenseData');
-//   if (savedData) {
-//     const data = JSON.parse(savedData);
-//     document.getElementById('data1').value = data[0].value;
-//     document.getElementById('data2').value = data[1].value;
-//     document.getElementById('data3').value = data[2].value;
-//     document.getElementById('data4').value = data[3].value;
-//     document.getElementById('data5').value = data[4].value;
-//     document.getElementById('data6').value = data[5].value;
-//     document.getElementById('data7').value = data[6].value;
-//     document.getElementById('culminate').click();
-//   }
-// }
-
-// window.addEventListener('load', updatePieChart);
+    
