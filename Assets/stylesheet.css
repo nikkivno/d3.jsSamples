@@ -6,10 +6,46 @@ html, body {
     padding: 0;
     overflow: hidden;
     display: block;
+    justify-content: center;
+    align-items: center;
 }
 
 body {
-    /* Adjust border properties for the body element */
     border: 20px solid #fe019a;
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    box-sizing: border-box;
+}
+
+h1 {
+    color: white;
+    font-family: "Tourney", sans-serif;
+    font-size: 150px;
+    font-optical-sizing: auto;
+    font-weight:200;
+    text-align: center;
+}
+
+ul {
+    text-align: center;
+}
+
+ul > li {
+    color: white;
+    list-style-type: none;
+    display: inline-block;
+    padding: 20px;
+}
+
+button {
+    font-size: 30px;
+    font-family: "Tourney", sans-serif;
+    font-weight: 100;
+    color: white;
+    border: none;
+    background-color: transparent;
+}
+
+
+
+button:hover {
+    color: #fe019a;
 }

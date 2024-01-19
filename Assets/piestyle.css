@@ -1,0 +1,24 @@
+
+h2 {
+    font-family: "Tourney", sans-serif;
+    color: white;
+    font-size: 60px;
+    font-optical-sizing: auto;
+    font-weight:200;
+    text-align: center;
+    margin: 20px 0 0 0;
+}
+
+.center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.piecontainer {
+   text-align: center;
+}
+
+#pieChart {
+    align-items: center;
+}
