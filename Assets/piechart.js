@@ -1,7 +1,7 @@
 const container = d3.select("#pieChart");
 
 const svg = container.append("svg")
-  .attr("width", 80000)
+  .attr("width", 1000)
   .attr("height", 600);
 
 svg.append("circle")
