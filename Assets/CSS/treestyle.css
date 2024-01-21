@@ -26,3 +26,22 @@ p {
     justify-content: center;
     align-items: center;
 }
+
+/* Apply styles to nodes */
+.node circle {
+    fill: #fe019a; /* Node circle color */
+    stroke: #fe019a; /* Node circle border color */
+    stroke-width: 2.5; /* Node circle border width */
+}
+
+.node text {
+    fill: white; /* Node text color */
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Apply styles to links */
+.link {
+    fill: none;
+    stroke: #ccc; /* Link color */
+    stroke-width: 1; /* Link width */
+}
