@@ -9,7 +9,6 @@ The Samples Included:
 - Pie Chart
 - Group Bar Graph
 - Collapsible Tree
-- Icicle Graph
 
 ## Examples
 
@@ -19,6 +18,14 @@ The Samples Included:
 
 ### Group Bar Graph
 
+![Group Bar Chart](Assets/images/barchart.png)
+
 ### Collapsible Tree
 
-### Icicle Graph
+![Collapsible Tree Graph](Assets/images/collapsibletree.png)
+
+
+## Additional Information
+
+As I continue to explore the D3.js library more charts will be added to the site. 
+
