@@ -49,3 +49,10 @@ button {
 button:hover {
     color: #fe019a;
 }
+
+#disclaimer {
+    color: white;
+    text-align: center;
+    margin-top: 75px;
+    font-family: "Tourney", sans-serif;
+}
