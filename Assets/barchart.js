@@ -7,21 +7,20 @@ d3.json("./Assets/bardata.json").then(function (response) {
     const marginBottom = 50;
     const marginLeft = 50;
     const marginRight = 20;
-  
-    // Sort the data array by year and month
+
     data.sort((a, b) => a.year.localeCompare(b.year) || a.month.localeCompare(b.month));
   
     const month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    const years = Array.from(new Set(data.map(d => d.year)));
-  
-    const fx = d3
-      .scaleBand()
-      .domain(data.map(d => `${d.month} ${d.year}`))
-      .range([marginLeft, width - marginRight])
-      .paddingInner(0.1)
-      .paddingOuter(0.2);
+const years = Array.from(new Set(data.map(d => d.year)));
 
-      data.sort((a, b) => a.month.localeCompare(b.month) || a.year.localeCompare(b.year));
+const fx = d3
+  .scaleBand()
+  .domain(month)  // Use the predefined order of months
+  .range([marginLeft, width - marginRight])
+  .paddingInner(0.1)
+  .paddingOuter(0.2);
+
+data.sort((a, b) => a.month.localeCompare(b.month) || a.year.localeCompare(b.year));
   
     const colorForYears =
       d3.scaleOrdinal()
@@ -44,19 +43,18 @@ d3.json("./Assets/bardata.json").then(function (response) {
       .attr("height", height)
       .attr("viewBox", [0, 0, width, height])
       .attr("style", "max-width: 100%; height: auto;");
-  
-    svg
-      .append("g")
-      .selectAll()
-      .data(data)
-      .join("rect")
-      .attr("x", d => fx(`${d.month} ${d.year}`))
-      .attr("y", d => y(d.value))
-      .attr("width", fx.bandwidth())
-      .attr("height", d => y(0) - y(d.value))
-      .attr("fill", d => colorForYears(d.year));
-  
 
+      svg
+  .append("g")
+  .selectAll()
+  .data(data)
+  .join("rect")
+  .attr("x", d => fx(d.month) + fx.bandwidth() / years.length * years.indexOf(d.year))
+  .attr("y", d => y(d.value))
+  .attr("width", fx.bandwidth() / years.length)
+  .attr("height", d => y(0) - y(d.value))
+  .attr("fill", d => colorForYears(d.year));
+ 
       svg
   .append("g")
   .attr("transform", `translate(0,${height - marginBottom})`)
@@ -67,16 +65,6 @@ d3.json("./Assets/bardata.json").then(function (response) {
     .style("text-anchor", "middle")
     .attr("dy", "0.5em"));
 
-      // svg
-      // .append("g")
-      // .attr("transform", `translate(0,${height - marginBottom})`)
-      // .call(d3.axisBottom(fx).tickFormat(d => month[parseInt(d.split(' ')[0]) - 1]))
-      // .call(g => g.selectAll(".domain").attr("stroke", "white"))
-      // .call(g => g.selectAll("text")
-      //   .attr("fill", "white")
-      //   .style("text-anchor", "middle")
-      //   .attr("dy", "0.5em"));
-  
     svg
       .append("g")
       .attr("transform", `translate(0,${height - marginBottom})`)
