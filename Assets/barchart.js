@@ -1,7 +1,7 @@
 d3.json("./Assets/bardata.json").then(function (response) {
   const data = response;
 
-  const width = 1000;
+  const width = 1500;
   const height = 500;
   const marginTop = 10;
   const marginBottom = 50;
@@ -87,14 +87,17 @@ d3.json("./Assets/bardata.json").then(function (response) {
         .attr("fill", "white")
         .style("text-anchor", "middle")
         .attr("dy", "0.5em")
+        .style("font-size", "14px")
     );
 
   svg
     .append("g")
     .attr("transform", `translate(0,${height - marginBottom})`)
     .call(d3.axisLeft(y).ticks(null, "s").tickFormat(formatValue))
-    .call((g) => g.selectAll(".domain").attr("stroke", "white"))
-    .call((g) => g.selectAll("text").attr("fill", "white"));
+    .call((g) => g.selectAll(".domain")
+    .attr("stroke", "white"))
+    .call((g) => g.selectAll("text")
+    .attr("fill", "white"));
 
   svg.selectAll(".tick text").attr("fill", "white");
 
@@ -102,8 +105,46 @@ d3.json("./Assets/bardata.json").then(function (response) {
     .append("g")
     .attr("transform", `translate(${marginLeft},0)`)
     .call(d3.axisLeft(y).ticks(null, "s"))
-    .call((g) => g.selectAll(".domain").attr("stroke", "white"))
-    .call((g) => g.selectAll("text").attr("fill", "white"));
+    .call((g) => g.selectAll(".domain")
+    .attr("stroke", "white"))
+    .call((g) => g.selectAll("text")
+    .attr("fill", "white")
+    .style("font-size", "14px")
+    );
+
+  const legendWidth = 200;
+
+  const legend = svg
+    .append("g")
+    .attr("class", "legend")
+    .attr(
+      "transform",
+      `translate(${width - marginRight - legendWidth}, ${marginTop})`
+    );
+
+  // Append legend elements for each year
+  const legendItems = legend
+    .selectAll(".legend-item")
+    .data(years)
+    .enter()
+    .append("g")
+    .attr("class", "legend-item")
+    .attr("transform", (d, i) => `translate(0, ${i * 30})`);
+
+  // Add colored rectangles representing each year
+  legendItems
+    .append("rect")
+    .attr("width", 20)
+    .attr("height", 20)
+    .attr("fill", (d) => colorForYears(d));
+
+  // Add text labels for each year
+  legendItems
+    .append("text")
+    .attr("x", 30)
+    .attr("y", 17)
+    .text((d) => d)
+    .attr("fill", "white");
 
   return Object.assign(svg.node(), { scales: { colorForYears } });
 });
