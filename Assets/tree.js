@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const width = 1000;
     const height = 400;
 
-    const margin = { top: 50, right: 200, bottom: 50, left: 200 };
+    const margin = { top: 0, right: 200, bottom: 25, left: 200 };
     const treeWidth = width - margin.left - margin.right;
     const treeHeight = height - margin.top - margin.bottom;
 
