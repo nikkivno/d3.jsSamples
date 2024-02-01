@@ -16,10 +16,12 @@ d3.json("./Assets/bardata.json").then(function (response) {
   
     const fx = d3
       .scaleBand()
-      .domain(data.map(d => `${d.year}-${d.month}`))
+      .domain(data.map(d => `${d.month} ${d.year}`))
       .range([marginLeft, width - marginRight])
       .paddingInner(0.1)
       .paddingOuter(0.2);
+
+      data.sort((a, b) => a.month.localeCompare(b.month) || a.year.localeCompare(b.year));
   
     const colorForYears =
       d3.scaleOrdinal()
@@ -48,21 +50,32 @@ d3.json("./Assets/bardata.json").then(function (response) {
       .selectAll()
       .data(data)
       .join("rect")
-      .attr("x", d => fx(`${d.year}-${d.month}`))
+      .attr("x", d => fx(`${d.month} ${d.year}`))
       .attr("y", d => y(d.value))
       .attr("width", fx.bandwidth())
       .attr("height", d => y(0) - y(d.value))
       .attr("fill", d => colorForYears(d.year));
   
-    svg
-      .append("g")
-      .attr("transform", `translate(0,${height - marginBottom})`)
-      .call(d3.axisBottom(fx).tickFormat(d => month[parseInt(d.split('-')[1]) - 1]))
-      .call(g => g.selectAll(".domain").attr("stroke", "white"))
-      .call(g => g.selectAll("text")
-        .attr("fill", "white")
-        .style("text-anchor", "middle")
-        .attr("dy", "0.5em"));
+
+      svg
+  .append("g")
+  .attr("transform", `translate(0,${height - marginBottom})`)
+  .call(d3.axisBottom(fx).tickFormat(d => d.split(' ')[0]))
+  .call(g => g.selectAll(".domain").attr("stroke", "white"))
+  .call(g => g.selectAll("text")
+    .attr("fill", "white")
+    .style("text-anchor", "middle")
+    .attr("dy", "0.5em"));
+
+      // svg
+      // .append("g")
+      // .attr("transform", `translate(0,${height - marginBottom})`)
+      // .call(d3.axisBottom(fx).tickFormat(d => month[parseInt(d.split(' ')[0]) - 1]))
+      // .call(g => g.selectAll(".domain").attr("stroke", "white"))
+      // .call(g => g.selectAll("text")
+      //   .attr("fill", "white")
+      //   .style("text-anchor", "middle")
+      //   .attr("dy", "0.5em"));
   
     svg
       .append("g")

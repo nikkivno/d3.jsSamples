@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 return d.x;
               })
           )
-          .style('stroke', '#ccc')
+          .style('stroke', '#fe019a')
           .style('stroke-width', 1);
 
         const nodeEnter = nodes
